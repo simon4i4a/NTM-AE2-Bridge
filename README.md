@@ -22,6 +22,8 @@ Compatibility is a development target and still needs to be verified in-game.
 - Isolated conversion math with JUnit 5 unit tests for losses, fractional ratios, partial acceptance, and invalid inputs.
 - Common config for conversion ratio, transfer limit, energy loss, and buffer capacity.
 - Empty-hand interaction displays buffer level and ME connection status.
+- Horizontal placement orientation rotates the converter's front panel to face the player.
+- Buffer contents are clamped safely if the configured capacity is reduced.
 - Basic crafting recipe and block loot table.
 - English and Russian translations.
 
