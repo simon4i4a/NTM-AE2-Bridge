@@ -11,15 +11,18 @@ A Minecraft addon for connecting the HE energy system from **HBM's NTM: Decentra
 
 Compatibility is a development target and still needs to be verified in-game.
 
-## Current implementation
+## Current source implementation
 
-- Registered HE–AE converter block and block entity.
-- HBM HE receiver capability on the converter.
-- Internal HE buffer with persistent block-entity storage.
-- AE2 grid node and server-side energy injection.
-- Simulation before injection, with HE consumed only for AE energy actually accepted.
-- Common configuration for conversion ratio, transfer limit, energy loss, and buffer capacity.
-- English and Russian block names.
+- Registered HE–AE converter block, block entity, and placeable block item.
+- Converter appears in the Functional Blocks creative tab.
+- HBM HE receiver capability using `IEnergyHandlerMK2`.
+- Internal HE buffer with block-entity persistence.
+- AE2 managed grid node and server-side energy injection.
+- Simulated ME injection before committing energy; the buffer is debited only for energy actually accepted.
+- Common config for conversion ratio, transfer limit, energy loss, and buffer capacity.
+- Empty-hand interaction displays buffer level and ME connection status.
+- Basic crafting recipe and block loot table.
+- English and Russian translations.
 
 ## Configuration
 
@@ -34,9 +37,13 @@ buffer_capacity = 10000
 ```
 
 - `ae_per_he`: AE energy produced per HE before energy loss.
-- `max_transfer`: maximum HE processed per game tick.
+- `max_transfer`: maximum HE accepted from HBM and processed per game tick.
 - `energy_loss`: fraction of energy lost during conversion, from 0.0 to 1.0.
 - `buffer_capacity`: internal buffer size in HE.
+
+## Crafting
+
+The initial recipe is a placeholder recipe using iron, redstone, quartz, and a diamond. Ingredient balancing may change.
 
 ## Development setup
 
@@ -46,4 +53,4 @@ Run the Gradle `build` task after adding both dependencies.
 
 ## Project status
 
-Work in progress. The initial energy path is implemented in source, but the project has not yet been compiled or tested in-game. GUI, recipes, final textures, and broader compatibility testing remain.
+Work in progress. Source implementation is in place, but it has **not yet been compiled or tested in-game**. API compatibility, energy transfer behavior, GUI, final textures, and recipe balancing still need verification.
