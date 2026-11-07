@@ -21,7 +21,7 @@ Compatibility is a development target and still needs to be verified in-game.
 - Simulated ME injection before committing energy; the buffer is debited only for energy actually accepted.
 - Isolated conversion math with JUnit 5 unit tests for losses, fractional ratios, partial acceptance, and invalid inputs.
 - Common config for conversion ratio, transfer limit, energy loss, and buffer capacity.
-- Dedicated read-only GUI displays the HE buffer, capacity, and ME network connection state.
+- Dedicated read-only GUI displays the HE buffer, capacity, ME network connection state, conversion ratio, transfer limit, and energy loss.
 - Horizontal placement orientation rotates the converter's front panel to face the player.
 - Buffer contents are clamped safely if the configured capacity is reduced.
 - Basic crafting recipe and block loot table.
