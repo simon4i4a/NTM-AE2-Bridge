@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "ntm_ae2_bridge:block/energy_converter"
+    },
+    "facing=east": {
+      "model": "ntm_ae2_bridge:block/energy_converter",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ntm_ae2_bridge:block/energy_converter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ntm_ae2_bridge:block/energy_converter",
+      "y": 270
     }
   }
 }
