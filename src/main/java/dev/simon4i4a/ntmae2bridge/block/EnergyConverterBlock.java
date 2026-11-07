@@ -3,6 +3,9 @@ package dev.simon4i4a.ntmae2bridge.block;
 import dev.simon4i4a.ntmae2bridge.blockentity.EnergyConverterBlockEntity;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -26,6 +29,24 @@ public class EnergyConverterBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new EnergyConverterBlockEntity(pos, state);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player) {
+        if (!level.isClientSide && level.getBlockEntity(pos) instanceof EnergyConverterBlockEntity converter) {
+            String networkStatus = converter.isConnectedToMeNetwork() ? "connected" : "disconnected";
+            player.displayClientMessage(
+                    Component.literal(String.format(
+                            "HE: %.1f / %.0f | ME network: %s",
+                            converter.getBufferedHe(),
+                            converter.getBufferCapacity(),
+                            networkStatus
+                    )),
+                    false
+            );
+        }
+        return InteractionResult.SUCCESS;
     }
 
     @Override
