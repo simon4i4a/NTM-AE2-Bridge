@@ -1,6 +1,12 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "all": "minecraft:block/iron_block"
+    "down": "minecraft:block/polished_blackstone",
+    "up": "minecraft:block/quartz_block_top",
+    "north": "minecraft:block/redstone_lamp",
+    "south": "minecraft:block/iron_block",
+    "east": "minecraft:block/iron_block",
+    "west": "minecraft:block/iron_block",
+    "particle": "minecraft:block/iron_block"
   }
 }
