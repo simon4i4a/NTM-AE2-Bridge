@@ -24,6 +24,7 @@ Compatibility is a development target and still needs to be verified in-game.
 - Common config for conversion ratio, transfer limit, energy loss, and buffer capacity.
 - Dedicated read-only GUI displays the HE buffer, capacity, ME network connection state, conversion ratio, transfer limit, and energy loss.
 - Horizontal placement orientation rotates the converter's front panel to face the player.
+- Layered industrial block model with a recessed-style front panel, status lights, and an energy port, assembled from vanilla textures.
 - Buffer contents are clamped safely if the configured capacity is reduced.
 - Basic crafting recipe and block loot table.
 - English and Russian translations.
