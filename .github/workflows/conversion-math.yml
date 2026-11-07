@@ -1,0 +1,26 @@
+name: Conversion math checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  conversion-math:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile isolated conversion math
+        run: |
+          mkdir -p build/math-check
+          javac -d build/math-check \
+            src/main/java/dev/simon4i4a/ntmae2bridge/energy/EnergyConversionMath.java \
+            src/test/java/dev/simon4i4a/ntmae2bridge/energy/EnergyConversionMathSmokeTest.java
+      - name: Run conversion math checks
+        run: java -cp build/math-check dev.simon4i4a.ntmae2bridge.energy.EnergyConversionMathSmokeTest
