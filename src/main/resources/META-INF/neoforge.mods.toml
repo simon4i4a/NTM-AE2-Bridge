@@ -35,6 +35,6 @@ side="BOTH"
 [[dependencies.ntm_ae2_bridge]]
 modId="hbm"
 type="required"
-versionRange="[1.0.0,)"
+versionRange="[0,)"
 ordering="AFTER"
 side="BOTH"
