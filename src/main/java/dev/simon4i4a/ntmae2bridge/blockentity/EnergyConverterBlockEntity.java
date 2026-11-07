@@ -25,7 +25,19 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
     }
 
     public double getBufferedHe() {
+        clampBufferToCapacity();
         return heBuffer;
+    }
+
+    private void clampBufferToCapacity() {
+        double capacity = BridgeConfig.BUFFER_CAPACITY.get();
+        if (heBuffer > capacity) {
+            heBuffer = capacity;
+            energyChanged();
+        } else if (heBuffer < 0.0) {
+            heBuffer = 0.0;
+            energyChanged();
+        }
     }
 
     public double getBufferCapacity() {
@@ -38,7 +50,11 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
 
     public static void serverTick(
             Level level, BlockPos pos, BlockState state, EnergyConverterBlockEntity blockEntity) {
-        if (level.isClientSide || blockEntity.heBuffer <= EPSILON) {
+        if (level.isClientSide) {
+            return;
+        }
+        blockEntity.clampBufferToCapacity();
+        if (blockEntity.heBuffer <= EPSILON) {
             return;
         }
 
@@ -87,11 +103,13 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
 
     @Override
     public long getPower() {
+        clampBufferToCapacity();
         return (long) Math.floor(heBuffer);
     }
 
     @Override
     public void setPower(long power) {
+        clampBufferToCapacity();
         double capacity = BridgeConfig.BUFFER_CAPACITY.get();
         double updated = Math.max(0.0, Math.min(power, capacity));
         if (Math.abs(updated - heBuffer) > EPSILON) {
@@ -122,6 +140,7 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
 
     @Override
     public long transferPower(long amount, boolean simulate) {
+        clampBufferToCapacity();
         if (amount <= 0) {
             return 0;
         }
