@@ -41,4 +41,9 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 // They are intentionally not committed to this repository.
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
 }
