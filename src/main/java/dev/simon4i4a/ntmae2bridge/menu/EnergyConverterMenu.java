@@ -1,6 +1,5 @@
 package dev.simon4i4a.ntmae2bridge.menu;
 
-import dev.simon4i4a.ntmae2bridge.registry.ModBlockEntities;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlocks;
 import dev.simon4i4a.ntmae2bridge.registry.ModMenus;
 import net.minecraft.world.entity.player.Inventory;
