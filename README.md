@@ -19,6 +19,7 @@ Compatibility is a development target and still needs to be verified in-game.
 - Internal HE buffer with block-entity persistence.
 - AE2 managed grid node and server-side energy injection.
 - Simulated ME injection before committing energy; the buffer is debited only for energy actually accepted.
+- Isolated conversion math with JUnit 5 unit tests for losses, fractional ratios, partial acceptance, and invalid inputs.
 - Common config for conversion ratio, transfer limit, energy loss, and buffer capacity.
 - Empty-hand interaction displays buffer level and ME connection status.
 - Basic crafting recipe and block loot table.
