@@ -1,5 +1,6 @@
 package dev.simon4i4a.ntmae2bridge.menu;
 
+import dev.simon4i4a.ntmae2bridge.config.BridgeConfig;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlocks;
 import dev.simon4i4a.ntmae2bridge.registry.ModMenus;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import dev.simon4i4a.ntmae2bridge.blockentity.EnergyConverterBlockEntity;
 
 public class EnergyConverterMenu extends AbstractContainerMenu {
-    private static final int DATA_COUNT = 3;
+    private static final int DATA_COUNT = 6;
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
@@ -37,6 +38,9 @@ public class EnergyConverterMenu extends AbstractContainerMenu {
                     case 0 -> (int) Math.min(Integer.MAX_VALUE, converter.getPower());
                     case 1 -> (int) Math.min(Integer.MAX_VALUE, converter.getBufferCapacity());
                     case 2 -> converter.isConnectedToMeNetwork() ? 1 : 0;
+                    case 3 -> (int) Math.round(BridgeConfig.AE_PER_HE.get() * 1000.0);
+                    case 4 -> BridgeConfig.MAX_TRANSFER.get();
+                    case 5 -> (int) Math.round(BridgeConfig.ENERGY_LOSS.get() * 1000.0);
                     default -> 0;
                 };
             }
@@ -64,6 +68,18 @@ public class EnergyConverterMenu extends AbstractContainerMenu {
 
     public boolean isConnected() {
         return data.get(2) != 0;
+    }
+
+    public int getAePerHeThousandths() {
+        return data.get(3);
+    }
+
+    public int getMaxTransfer() {
+        return data.get(4);
+    }
+
+    public int getEnergyLossThousandths() {
+        return data.get(5);
     }
 
     @Override
