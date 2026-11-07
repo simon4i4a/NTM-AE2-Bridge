@@ -32,7 +32,7 @@ public class EnergyConverterBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(
+    public InteractionResult useWithoutItem(
             BlockState state, Level level, BlockPos pos, Player player) {
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof EnergyConverterBlockEntity converter) {
             Component networkStatus = Component.translatable(
