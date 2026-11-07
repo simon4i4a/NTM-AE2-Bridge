@@ -56,4 +56,4 @@ Run the Gradle `build` task after adding both dependencies.
 
 ## Project status
 
-Work in progress. Source implementation is in place, but it has **not yet been compiled or tested in-game**. API compatibility, energy transfer behavior, GUI, final textures, and recipe balancing still need verification.
+Work in progress. Source implementation is in place, but it has **not yet been compiled or tested in-game**. API compatibility, energy transfer behavior, GUI rendering and synchronization, final custom textures, and recipe balancing still need verification.
