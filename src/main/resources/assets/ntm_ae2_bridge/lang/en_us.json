@@ -7,5 +7,5 @@
   "gui.ntm_ae2_bridge.buffer": "HE buffer: %s / %s",
   "gui.ntm_ae2_bridge.connected": "ME network: connected",
   "gui.ntm_ae2_bridge.disconnected": "ME network: not connected",
-  "gui.ntm_ae2_bridge.status_hint": "Energy is transferred automatically."
+  "gui.ntm_ae2_bridge.status_hint": "Automatic transfer."
 }
