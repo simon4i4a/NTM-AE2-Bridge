@@ -6,11 +6,13 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.Locale;
+
 public class EnergyConverterScreen extends AbstractContainerScreen<EnergyConverterMenu> {
     public EnergyConverterScreen(EnergyConverterMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         imageWidth = 176;
-        imageHeight = 112;
+        imageHeight = 148;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class EnergyConverterScreen extends AbstractContainerScreen<EnergyConvert
             graphics.fill(x + 13, y + 43, x + 13 + barWidth, y + 51, 0xFF55C8D8);
         }
 
-        graphics.fill(x + 8, y + 70, x + imageWidth - 8, y + 96, 0xFF101820);
+        graphics.fill(x + 8, y + 65, x + imageWidth - 8, y + 88, 0xFF101820);
     }
 
     @Override
@@ -56,15 +58,45 @@ public class EnergyConverterScreen extends AbstractContainerScreen<EnergyConvert
                                 : "gui.ntm_ae2_bridge.disconnected"
                 ),
                 13,
-                78,
+                73,
                 menu.isConnected() ? 0xFF72D69A : 0xFFE6A36B,
+                false
+        );
+        graphics.drawString(
+                font,
+                Component.translatable(
+                        "gui.ntm_ae2_bridge.ratio",
+                        String.format(Locale.ROOT, "%.3f", menu.getAePerHeThousandths() / 1000.0)
+                ),
+                13,
+                96,
+                0xFFEAF2F5,
+                false
+        );
+        graphics.drawString(
+                font,
+                Component.translatable("gui.ntm_ae2_bridge.limit", menu.getMaxTransfer()),
+                13,
+                109,
+                0xFFEAF2F5,
+                false
+        );
+        graphics.drawString(
+                font,
+                Component.translatable(
+                        "gui.ntm_ae2_bridge.loss",
+                        String.format(Locale.ROOT, "%.1f", menu.getEnergyLossThousandths() / 10.0)
+                ),
+                13,
+                122,
+                0xFFEAF2F5,
                 false
         );
         graphics.drawString(
                 font,
                 Component.translatable("gui.ntm_ae2_bridge.status_hint"),
                 13,
-                91,
+                136,
                 0xFF9AAAB4,
                 false
         );
