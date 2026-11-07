@@ -7,5 +7,8 @@
   "gui.ntm_ae2_bridge.buffer": "HE buffer: %s / %s",
   "gui.ntm_ae2_bridge.connected": "ME network: connected",
   "gui.ntm_ae2_bridge.disconnected": "ME network: not connected",
-  "gui.ntm_ae2_bridge.status_hint": "Automatic transfer."
+  "gui.ntm_ae2_bridge.status_hint": "Automatic transfer.",
+  "gui.ntm_ae2_bridge.ratio": "Ratio: %s AE / HE",
+  "gui.ntm_ae2_bridge.limit": "Transfer limit: %s HE/t",
+  "gui.ntm_ae2_bridge.loss": "Energy loss: %s%%"
 }
