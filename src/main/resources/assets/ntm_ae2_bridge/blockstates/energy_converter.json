@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ntm_ae2_bridge:block/energy_converter"
+    }
+  }
+}
