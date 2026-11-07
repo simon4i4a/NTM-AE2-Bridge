@@ -2,5 +2,10 @@
   "block.ntm_ae2_bridge.energy_converter": "Преобразователь энергии HE–AE",
   "message.ntm_ae2_bridge.converter_status": "Буфер HE: %s / %s | ME-сеть: %s",
   "message.ntm_ae2_bridge.connected": "подключена",
-  "message.ntm_ae2_bridge.disconnected": "не подключена"
+  "message.ntm_ae2_bridge.disconnected": "не подключена",
+  "gui.ntm_ae2_bridge.title": "Преобразователь энергии HE–ME",
+  "gui.ntm_ae2_bridge.buffer": "Буфер HE: %s / %s",
+  "gui.ntm_ae2_bridge.connected": "ME-сеть: подключена",
+  "gui.ntm_ae2_bridge.disconnected": "ME-сеть: не подключена",
+  "gui.ntm_ae2_bridge.status_hint": "Передача энергии происходит автоматически."
 }
