@@ -6,6 +6,7 @@ import appeng.api.networking.energy.IEnergyService;
 import appeng.blockentity.grid.AENetworkedBlockEntity;
 import com.hbm.api.energymk2.IEnergyHandlerMK2;
 import dev.simon4i4a.ntmae2bridge.config.BridgeConfig;
+import dev.simon4i4a.ntmae2bridge.energy.EnergyConversionMath;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -46,14 +47,16 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
             return;
         }
 
-        double conversionRate = BridgeConfig.AE_PER_HE.get()
-                * (1.0 - BridgeConfig.ENERGY_LOSS.get());
+        double conversionRate = EnergyConversionMath.effectiveRate(
+                BridgeConfig.AE_PER_HE.get(),
+                BridgeConfig.ENERGY_LOSS.get()
+        );
         if (conversionRate <= EPSILON) {
             return;
         }
 
         double heToOffer = Math.min(blockEntity.heBuffer, BridgeConfig.MAX_TRANSFER.get());
-        double aeToOffer = heToOffer * conversionRate;
+        double aeToOffer = EnergyConversionMath.outputForHe(heToOffer, conversionRate);
         if (aeToOffer <= EPSILON) {
             return;
         }
@@ -71,12 +74,14 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
         double actualRemainder = energy.injectPower(aeToOffer, Actionable.MODULATE);
         double actuallyAccepted = Math.max(0.0, aeToOffer - actualRemainder);
         if (actuallyAccepted > EPSILON) {
-            double consumedHe = Math.min(blockEntity.heBuffer, actuallyAccepted / conversionRate);
+            double consumedHe = EnergyConversionMath.heForAcceptedAe(
+                    actuallyAccepted, conversionRate, blockEntity.heBuffer
+            );
             blockEntity.heBuffer -= consumedHe;
             if (blockEntity.heBuffer < EPSILON) {
                 blockEntity.heBuffer = 0.0;
             }
-            blockEntity.setChanged();
+            blockEntity.energyChanged();
         }
     }
 
@@ -91,7 +96,7 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
         double updated = Math.max(0.0, Math.min(power, capacity));
         if (Math.abs(updated - heBuffer) > EPSILON) {
             heBuffer = updated;
-            setChanged();
+            energyChanged();
         }
     }
 
@@ -125,8 +130,9 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
         long accepted = (long) Math.floor(Math.min((double) amount, room) + EPSILON);
         if (!simulate && accepted > 0) {
             heBuffer += accepted;
-            setChanged();
+            energyChanged();
         }
+        // HBM expects the amount that could NOT be inserted.
         return amount - accepted;
     }
 
