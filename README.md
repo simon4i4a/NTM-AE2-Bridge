@@ -20,6 +20,7 @@ Compatibility is a development target and still needs to be verified in-game.
 - AE2 managed grid node and server-side energy injection.
 - Simulated ME injection before committing energy; the buffer is debited only for energy actually accepted.
 - Isolated conversion math with JUnit 5 unit tests for losses, fractional ratios, partial acceptance, and invalid inputs.
+- GitHub Actions compiles and runs dependency-free conversion-math smoke checks on pushes and pull requests.
 - Common config for conversion ratio, transfer limit, energy loss, and buffer capacity.
 - Dedicated read-only GUI displays the HE buffer, capacity, ME network connection state, conversion ratio, transfer limit, and energy loss.
 - Horizontal placement orientation rotates the converter's front panel to face the player.
@@ -56,4 +57,4 @@ Run the Gradle `build` task after adding both dependencies.
 
 ## Project status
 
-Work in progress. Source implementation is in place, but it has **not yet been compiled or tested in-game**. API compatibility, energy transfer behavior, GUI rendering and synchronization, final custom textures, and recipe balancing still need verification.
+Work in progress. The isolated conversion-math checks pass in GitHub Actions, but the complete mod has **not yet been compiled or tested in-game**. API compatibility, energy transfer behavior, GUI rendering and synchronization, final custom textures, and recipe balancing still need verification.
