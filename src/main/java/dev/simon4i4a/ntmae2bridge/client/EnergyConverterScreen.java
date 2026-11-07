@@ -25,7 +25,7 @@ public class EnergyConverterScreen extends AbstractContainerScreen<EnergyConvert
         graphics.fill(x + 8, y + 31, x + imageWidth - 8, y + 58, 0xFF101820);
 
         int capacity = Math.max(1, menu.getBufferCapacity());
-        int buffered = Math.max(0, menu.getBufferedHe());
+        int buffered = (int) Math.max(0, Math.round(menu.getBufferedHe()));
         int barWidth = (int) Math.min(150.0, 150.0 * buffered / capacity);
         graphics.fill(x + 13, y + 43, x + 163, y + 51, 0xFF080D12);
         if (barWidth > 0) {
@@ -42,7 +42,7 @@ public class EnergyConverterScreen extends AbstractContainerScreen<EnergyConvert
                 font,
                 Component.translatable(
                         "gui.ntm_ae2_bridge.buffer",
-                        menu.getBufferedHe(),
+                        String.format(Locale.ROOT, "%.1f", menu.getBufferedHe()),
                         menu.getBufferCapacity()
                 ),
                 13,
