@@ -23,6 +23,18 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
         super(ModBlockEntities.ENERGY_CONVERTER.get(), pos, state);
     }
 
+    public double getBufferedHe() {
+        return heBuffer;
+    }
+
+    public double getBufferCapacity() {
+        return BridgeConfig.BUFFER_CAPACITY.get();
+    }
+
+    public boolean isConnectedToMeNetwork() {
+        return getMainNode().getGrid() != null;
+    }
+
     public static void serverTick(
             Level level, BlockPos pos, BlockState state, EnergyConverterBlockEntity blockEntity) {
         if (level.isClientSide || blockEntity.heBuffer <= EPSILON) {
@@ -55,7 +67,7 @@ public class EnergyConverterBlockEntity extends AENetworkedBlockEntity implement
             return;
         }
 
-        // The real injection may accept less if the network changes; only debit what it accepted.
+        // Only debit the energy the ME network actually accepted.
         double actualRemainder = energy.injectPower(aeToOffer, Actionable.MODULATE);
         double actuallyAccepted = Math.max(0.0, aeToOffer - actualRemainder);
         if (actuallyAccepted > EPSILON) {
