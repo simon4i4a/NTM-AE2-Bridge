@@ -1,12 +1,17 @@
 package dev.simon4i4a.ntmae2bridge.block;
 
 import dev.simon4i4a.ntmae2bridge.blockentity.EnergyConverterBlockEntity;
+import dev.simon4i4a.ntmae2bridge.menu.EnergyConverterMenu;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlockEntities;
+import dev.simon4i4a.ntmae2bridge.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -64,20 +69,20 @@ public class EnergyConverterBlock extends BaseEntityBlock {
     @Override
     public InteractionResult useWithoutItem(
             BlockState state, Level level, BlockPos pos, Player player) {
-        if (!level.isClientSide && level.getBlockEntity(pos) instanceof EnergyConverterBlockEntity converter) {
-            Component networkStatus = Component.translatable(
-                    converter.isConnectedToMeNetwork()
-                            ? "message.ntm_ae2_bridge.connected"
-                            : "message.ntm_ae2_bridge.disconnected"
-            );
-            player.displayClientMessage(
-                    Component.translatable(
-                            "message.ntm_ae2_bridge.converter_status",
-                            String.format("%.1f", converter.getBufferedHe()),
-                            String.format("%.0f", converter.getBufferCapacity()),
-                            networkStatus
-                    ),
-                    false
+        if (!level.isClientSide
+                && player instanceof ServerPlayer serverPlayer
+                && level.getBlockEntity(pos) instanceof EnergyConverterBlockEntity converter) {
+            serverPlayer.openMenu(
+                    new SimpleMenuProvider(
+                            (containerId, inventory, menuPlayer) ->
+                                    new EnergyConverterMenu(
+                                            containerId,
+                                            inventory,
+                                            converter,
+                                            ContainerLevelAccess.create(level, pos)
+                                    ),
+                            Component.translatable("gui.ntm_ae2_bridge.title")
+                    )
             );
         }
         return InteractionResult.SUCCESS;
