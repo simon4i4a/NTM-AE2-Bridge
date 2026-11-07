@@ -3,7 +3,6 @@ package dev.simon4i4a.ntmae2bridge.block;
 import dev.simon4i4a.ntmae2bridge.blockentity.EnergyConverterBlockEntity;
 import dev.simon4i4a.ntmae2bridge.menu.EnergyConverterMenu;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlockEntities;
-import dev.simon4i4a.ntmae2bridge.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -37,7 +36,8 @@ public class EnergyConverterBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
+    protected void createBlockStateDefinition(
+            StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
         builder.add(FACING);
     }
 
@@ -85,7 +85,7 @@ public class EnergyConverterBlock extends BaseEntityBlock {
                     )
             );
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
