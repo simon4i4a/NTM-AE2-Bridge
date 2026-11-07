@@ -41,8 +41,8 @@ repositories {
     mavenCentral()
 }
 
-// Put local development jars (for example AE2 and HBM) into libs/.
-// They are intentionally not committed to this repository.
+// Put the exact runtime/development JARs for AE2 and HBM into libs/.
+// The JARs are intentionally not committed or redistributed by this project.
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
@@ -50,4 +50,111 @@ dependencies {
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
+}
+
+/**
+ * Fail early with a useful message instead of letting javac produce pages
+ * of confusing "package ... does not exist" errors when local mod JARs are absent.
+ */
+tasks.register('verifyLocalModDependencies') {
+    group = 'verification'
+    description = 'Checks that compatible AE2 and HBM mod JARs are present in libs/.'
+
+    doLast {
+        File libsDir = layout.projectDirectory.dir('libs').asFile
+        List<File> jars = libsDir.exists()
+                ? fileTree(libsDir).matching { include '*.jar' }.files.toList()
+                : []
+
+        if (jars.isEmpty()) {
+            throw new GradleException(
+                    "Missing local mod dependencies. Create libs/ and put the Minecraft 1.21.1 / NeoForge " +
+                    "${neo_version} JARs for Applied Energistics 2 (${'ae2'}) and HBM NTM inside it. " +
+                    "See README.md > Full build. These third-party JARs are not included in this repository."
+            )
+        }
+
+        Map<String, File> found = [:]
+        jars.each { File jar ->
+            try {
+                java.util.zip.ZipFile zip = new java.util.zip.ZipFile(jar)
+                try {
+                    ['META-INF/neoforge.mods.toml', 'META-INF/mods.toml'].each { metadataPath ->
+                        def entry = zip.getEntry(metadataPath)
+                        if (entry != null) {
+                            String metadata = zip.getInputStream(entry).getText('UTF-8')
+                            if (metadata =~ /(?m)^\\s*modId\\s*=\\s*["']ae2["']/) found['ae2'] = jar
+                            if (metadata =~ /(?m)^\\s*modId\\s*=\\s*["']hbm["']/) found['hbm'] = jar
+                        }
+                    }
+                } finally {
+                    zip.close()
+                }
+            } catch (Exception ignored) {
+                // Ignore non-mod or malformed JARs; report the missing dependency below.
+            }
+        }
+
+        List<String> missing = ['ae2', 'hbm'].findAll { !found.containsKey(it) }
+        if (!missing.isEmpty()) {
+            throw new GradleException(
+                    "Could not identify required mod(s): ${missing.join(', ')}. " +
+                    "Check that libs/ contains the correct Minecraft 1.21.1 NeoForge JARs " +
+                    "and that their metadata declares modId=\"ae2\" and modId=\"hbm\". " +
+                    "Found JARs: ${jars.collect { it.name }.join(', ')}"
+            )
+        }
+
+        logger.lifecycle("Found AE2 dependency: ${found['ae2'].name}")
+        logger.lifecycle("Found HBM dependency: ${found['hbm'].name}")
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.named('verifyLocalModDependencies')
+}
+
+/**
+ * Validate resource JSON and ensure every texture referenced by this mod's
+ * block/item models exists. This task does not need the external mod JARs.
+ */
+tasks.register('verifyResources') {
+    group = 'verification'
+    description = 'Validates JSON resources and model texture references.'
+
+    doLast {
+        File resourcesDir = layout.projectDirectory.dir('src/main/resources').asFile
+        def parser = new groovy.json.JsonSlurper()
+        List<File> jsonFiles = fileTree(resourcesDir).matching { include '**/*.json' }.files.toList()
+        jsonFiles.each { File jsonFile ->
+            try {
+                parser.parse(jsonFile)
+            } catch (Exception e) {
+                throw new GradleException("Invalid JSON in ${resourcesDir.toPath().relativize(jsonFile.toPath())}: ${e.message}", e)
+            }
+        }
+
+        File assetsDir = new File(resourcesDir, 'assets/ntm_ae2_bridge')
+        List<File> modelFiles = fileTree(new File(assetsDir, 'models')).matching { include '**/*.json' }.files.toList()
+        modelFiles.each { File modelFile ->
+            def model = parser.parse(modelFile)
+            (model.textures ?: [:]).each { key, value ->
+                if (value instanceof String && value.startsWith('ntm_ae2_bridge:block/')) {
+                    String textureName = value.substring('ntm_ae2_bridge:block/'.length())
+                    File textureFile = new File(assetsDir, "textures/block/${textureName}.png")
+                    if (!textureFile.isFile()) {
+                        throw new GradleException(
+                                "Missing texture '${value}' referenced by ${resourcesDir.toPath().relativize(modelFile.toPath())}"
+                        )
+                    }
+                }
+            }
+        }
+
+        logger.lifecycle("Validated ${jsonFiles.size()} JSON resources and ${modelFiles.size()} model files.")
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyResources')
 }
