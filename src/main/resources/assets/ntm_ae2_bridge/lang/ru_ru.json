@@ -7,5 +7,5 @@
   "gui.ntm_ae2_bridge.buffer": "Буфер HE: %s / %s",
   "gui.ntm_ae2_bridge.connected": "ME-сеть: подключена",
   "gui.ntm_ae2_bridge.disconnected": "ME-сеть: не подключена",
-  "gui.ntm_ae2_bridge.status_hint": "Передача энергии происходит автоматически."
+  "gui.ntm_ae2_bridge.status_hint": "Автопередача энергии."
 }
