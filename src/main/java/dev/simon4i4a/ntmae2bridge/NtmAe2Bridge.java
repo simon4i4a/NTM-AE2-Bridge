@@ -5,6 +5,7 @@ import dev.simon4i4a.ntmae2bridge.config.BridgeConfig;
 import dev.simon4i4a.ntmae2bridge.blockentity.EnergyConverterBlockEntity;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlockEntities;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlocks;
+import dev.simon4i4a.ntmae2bridge.registry.ModCreativeTabs;
 import dev.simon4i4a.ntmae2bridge.registry.ModItems;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -19,6 +20,7 @@ public class NtmAe2Bridge {
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        ModCreativeTabs.register(modEventBus);
 
         modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, BridgeConfig.SPEC);
         modEventBus.addListener(this::registerCapabilities);
