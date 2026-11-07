@@ -7,6 +7,7 @@ import dev.simon4i4a.ntmae2bridge.registry.ModBlockEntities;
 import dev.simon4i4a.ntmae2bridge.registry.ModBlocks;
 import dev.simon4i4a.ntmae2bridge.registry.ModCreativeTabs;
 import dev.simon4i4a.ntmae2bridge.registry.ModItems;
+import dev.simon4i4a.ntmae2bridge.registry.ModMenus;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -20,6 +21,7 @@ public class NtmAe2Bridge {
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        ModMenus.MENUS.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
 
         modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, BridgeConfig.SPEC);
