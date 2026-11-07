@@ -35,7 +35,7 @@ public class EnergyConverterMenu extends AbstractContainerMenu {
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> (int) Math.min(Integer.MAX_VALUE, converter.getPower());
+                    case 0 -> (int) Math.min(Integer.MAX_VALUE, Math.round(converter.getBufferedHe() * 10.0));
                     case 1 -> (int) Math.min(Integer.MAX_VALUE, converter.getBufferCapacity());
                     case 2 -> converter.isConnectedToMeNetwork() ? 1 : 0;
                     case 3 -> (int) Math.round(BridgeConfig.AE_PER_HE.get() * 1000.0);
@@ -58,8 +58,8 @@ public class EnergyConverterMenu extends AbstractContainerMenu {
         addDataSlots(this.data);
     }
 
-    public int getBufferedHe() {
-        return data.get(0);
+    public double getBufferedHe() {
+        return data.get(0) / 10.0;
     }
 
     public int getBufferCapacity() {
