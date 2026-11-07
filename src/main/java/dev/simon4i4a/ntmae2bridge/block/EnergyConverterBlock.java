@@ -35,14 +35,18 @@ public class EnergyConverterBlock extends BaseEntityBlock {
     protected InteractionResult useWithoutItem(
             BlockState state, Level level, BlockPos pos, Player player) {
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof EnergyConverterBlockEntity converter) {
-            String networkStatus = converter.isConnectedToMeNetwork() ? "connected" : "disconnected";
+            Component networkStatus = Component.translatable(
+                    converter.isConnectedToMeNetwork()
+                            ? "message.ntm_ae2_bridge.connected"
+                            : "message.ntm_ae2_bridge.disconnected"
+            );
             player.displayClientMessage(
-                    Component.literal(String.format(
-                            "HE: %.1f / %.0f | ME network: %s",
-                            converter.getBufferedHe(),
-                            converter.getBufferCapacity(),
+                    Component.translatable(
+                            "message.ntm_ae2_bridge.converter_status",
+                            String.format("%.1f", converter.getBufferedHe()),
+                            String.format("%.0f", converter.getBufferCapacity()),
                             networkStatus
-                    )),
+                    ),
                     false
             );
         }
