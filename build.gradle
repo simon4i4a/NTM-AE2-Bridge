@@ -83,8 +83,8 @@ tasks.register('verifyLocalModDependencies') {
                         def entry = zip.getEntry(metadataPath)
                         if (entry != null) {
                             String metadata = zip.getInputStream(entry).getText('UTF-8')
-                            if (metadata =~ /(?m)^\\s*modId\\s*=\\s*["']ae2["']/) found['ae2'] = jar
-                            if (metadata =~ /(?m)^\\s*modId\\s*=\\s*["']hbm["']/) found['hbm'] = jar
+                            if (metadata =~ /(?m)^\s*modId\s*=\s*["']ae2["']/) found['ae2'] = jar
+                            if (metadata =~ /(?m)^\s*modId\s*=\s*["']hbm["']/) found['hbm'] = jar
                         }
                     }
                 } finally {
