@@ -1,3 +1,6 @@
 {
-  "block.ntm_ae2_bridge.energy_converter": "HE–AE Energy Converter"
+  "block.ntm_ae2_bridge.energy_converter": "HE–AE Energy Converter",
+  "message.ntm_ae2_bridge.converter_status": "HE buffer: %s / %s | ME network: %s",
+  "message.ntm_ae2_bridge.connected": "connected",
+  "message.ntm_ae2_bridge.disconnected": "disconnected"
 }
